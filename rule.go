@@ -5,8 +5,9 @@ import (
 )
 
 type rule struct {
-	Name  string
-	Match *regexp.Regexp
-	IPpos uint
-	Port  uint
+	Name   string
+	Match  *regexp.Regexp
+	IPpos  uint
+	Port   uint
+	Notify bool
 }

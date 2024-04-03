@@ -77,11 +77,16 @@ func loadConfig(path string) (conf Config, err error) {
 			return conf, fmt.Errorf("failed to compile regex: %s, %v", rs["match"].(string), err)
 		}
 
+		// notify?
+		if rs["notify"] != nil {
+			rule2add.Notify = rs["notify"].(bool)
+		}
+
 		// append rule
 		conf.Rules = append(conf.Rules, rule2add)
 	}
 
-	// notifier
+	// notifiers
 	for _, n := range m["notifiers"].([]interface{}) {
 		notifier2add := notifier{}
 

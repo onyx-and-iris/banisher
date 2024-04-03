@@ -116,20 +116,24 @@ func (b *Banisher) Add(ip, ruleName string) {
 	}
 
 	// notify by webhook
-	for _, n := range config.Notifiers {
-		if n.Name == "discord" {
-			var username = "Banisher"
-			var content = fmt.Sprintf("%s violation for %s", ruleName, ip)
-			var url = n.Url
+	if r, err := getRules(ruleName); err == nil {
+		if r.Notify {
+			for _, n := range config.Notifiers {
+				if n.Name == "discord" {
+					var username = "Banisher"
+					var content = fmt.Sprintf("%s violation for %s", ruleName, ip)
+					var url = n.Url
 
-			message := discordwebhook.Message{
-				Username: &username,
-				Content:  &content,
-			}
+					message := discordwebhook.Message{
+						Username: &username,
+						Content:  &content,
+					}
 
-			err := discordwebhook.SendMessage(url, message)
-			if err != nil {
-				log.Printf(err.Error())
+					err := discordwebhook.SendMessage(url, message)
+					if err != nil {
+						log.Printf(err.Error())
+					}
+				}
 			}
 		}
 	}

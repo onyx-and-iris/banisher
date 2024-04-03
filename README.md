@@ -48,10 +48,12 @@ rules:
   - name: dovecot
     match: .*imap-login:.*auth failed,.*
     IPpos: 0
+    notify: true
 
   - name: ssh
     match: Failed password.*ssh2
     IPpos: 0
+    notify: false
 
 # notifiers
 notifiers:
