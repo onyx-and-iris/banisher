@@ -6,7 +6,7 @@ require (
 	github.com/coreos/go-iptables v0.6.0
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf
 	github.com/dgraph-io/badger/v3 v3.2103.5
-	github.com/marcsauter/single v0.0.0-20201009143647-9f8d81240be2
+	github.com/gtuk/discordwebhook v1.2.0
 	github.com/nadoo/ipset v0.5.0
 	gopkg.in/yaml.v3 v3.0.1
 )

@@ -53,6 +53,10 @@ rules:
     match: Failed password.*ssh2
     IPpos: 0
 
+# notifiers
+notifiers:
+  - discord: <webhook url>
+
 ```
 
 Where:

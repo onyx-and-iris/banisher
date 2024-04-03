@@ -14,6 +14,7 @@ type Config struct {
 	DefaultBanishmentDuration uint
 	Whitelist                 []string
 	Rules                     []rule
+	Notifiers                 []notifier
 }
 
 func loadConfig(path string) (conf Config, err error) {
@@ -78,7 +79,21 @@ func loadConfig(path string) (conf Config, err error) {
 
 		// append rule
 		conf.Rules = append(conf.Rules, rule2add)
+	}
 
+	// notifier
+	for _, n := range m["notifiers"].([]interface{}) {
+		notifier2add := notifier{}
+
+		ns := n.(map[string]interface{})
+
+		//discord
+		if ns["discord"] != nil {
+			notifier2add.Name = "discord"
+			notifier2add.Url = ns["discord"].(string)
+		}
+
+		conf.Notifiers = append(conf.Notifiers, notifier2add)
 	}
 	return
 }
