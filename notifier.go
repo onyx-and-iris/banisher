@@ -20,6 +20,13 @@ type discordNotifier struct {
 	identifiers
 }
 
+func newDiscordNotifier(url string) discordNotifier {
+	dn := discordNotifier{}
+	dn.Name = "discord"
+	dn.Url = url
+	return dn
+}
+
 func (dn discordNotifier) send(ruleName, ip string) {
 	username := "Banisher"
 	content := fmt.Sprintf("%s violation for %s", ruleName, ip)
