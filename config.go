@@ -87,19 +87,22 @@ func loadConfig(path string) (conf Config, err error) {
 	}
 
 	// notifiers
-	for _, n := range m["notifiers"].([]interface{}) {
-		notifier2add := notifier{}
+	if notifiers, ok := m["notifiers"]; ok {
+		for _, n := range notifiers.([]interface{}) {
+			notifier2add := notifier{}
 
-		ns := n.(map[string]interface{})
+			ns := n.(map[string]interface{})
 
-		//discord
-		if ns["discord"] != nil {
-			notifier2add.Name = "discord"
-			notifier2add.Url = ns["discord"].(string)
+			//discord
+			if ns["discord"] != nil {
+				notifier2add.Name = "discord"
+				notifier2add.Url = ns["discord"].(string)
+			}
+
+			conf.Notifiers = append(conf.Notifiers, notifier2add)
 		}
-
-		conf.Notifiers = append(conf.Notifiers, notifier2add)
 	}
+
 	return
 }
 
