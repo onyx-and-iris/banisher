@@ -116,7 +116,7 @@ func (b *Banisher) Add(ip, ruleName string) {
 	}
 
 	// notify by webhook
-	if r, err := getRules(ruleName); err == nil {
+	if r, err := config.rulesByName(ruleName); err == nil {
 		if r.Notify {
 			for _, n := range config.Notifiers {
 				if n.Name == "discord" {

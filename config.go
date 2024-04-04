@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"net"
+	"os"
 	"regexp"
 
 	"gopkg.in/yaml.v3"
@@ -18,7 +18,7 @@ type Config struct {
 }
 
 func loadConfig(path string) (conf Config, err error) {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return conf, err
 	}
@@ -111,4 +111,13 @@ func (c Config) isIPWhitelisted(ip string) bool {
 		}
 	}
 	return false
+}
+
+func (c Config) rulesByName(ruleName string) (rule, error) {
+	for _, r := range c.Rules {
+		if r.Name == ruleName {
+			return r, nil
+		}
+	}
+	return rule{}, fmt.Errorf("no rule set named %s", ruleName)
 }
