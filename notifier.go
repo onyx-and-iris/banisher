@@ -7,29 +7,29 @@ import (
 	"github.com/gtuk/discordwebhook"
 )
 
-type notifier struct {
+type notifier interface {
+	send(string, string)
+}
+
+type identifiers struct {
 	Name string
 	Url  string
 }
 
-func (n notifier) send(ruleName, ip string) {
-	switch n.Name {
-	case "discord":
-		n.discordWebhook(ruleName, ip)
-	}
+type discordNotifier struct {
+	identifiers
 }
 
-func (n notifier) discordWebhook(ruleName, ip string) {
-	var username = "Banisher"
-	var content = fmt.Sprintf("%s violation for %s", ruleName, ip)
-	var url = n.Url
+func (dn discordNotifier) send(ruleName, ip string) {
+	username := "Banisher"
+	content := fmt.Sprintf("%s violation for %s", ruleName, ip)
 
 	message := discordwebhook.Message{
 		Username: &username,
 		Content:  &content,
 	}
 
-	err := discordwebhook.SendMessage(url, message)
+	err := discordwebhook.SendMessage(dn.Url, message)
 	if err != nil {
 		log.Printf(err.Error())
 	}

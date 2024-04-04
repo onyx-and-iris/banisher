@@ -89,7 +89,7 @@ func loadConfig(path string) (conf Config, err error) {
 	// notifiers
 	if notifiers, ok := m["notifiers"]; ok {
 		for _, n := range notifiers.([]interface{}) {
-			notifier2add := notifier{}
+			notifier2add := discordNotifier{}
 
 			ns := n.(map[string]interface{})
 
