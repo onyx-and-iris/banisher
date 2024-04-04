@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -10,7 +9,6 @@ import (
 
 	"github.com/coreos/go-iptables/iptables"
 	badger "github.com/dgraph-io/badger/v3"
-	"github.com/gtuk/discordwebhook"
 	"github.com/nadoo/ipset"
 )
 
@@ -119,21 +117,7 @@ func (b *Banisher) Add(ip, ruleName string) {
 	if r, err := config.rulesByName(ruleName); err == nil {
 		if r.Notify {
 			for _, n := range config.Notifiers {
-				if n.Name == "discord" {
-					var username = "Banisher"
-					var content = fmt.Sprintf("%s violation for %s", ruleName, ip)
-					var url = n.Url
-
-					message := discordwebhook.Message{
-						Username: &username,
-						Content:  &content,
-					}
-
-					err := discordwebhook.SendMessage(url, message)
-					if err != nil {
-						log.Printf(err.Error())
-					}
-				}
+				n.send(ruleName, ip)
 			}
 		}
 	}
