@@ -11,20 +11,12 @@ type notifier interface {
 	send(string, string)
 }
 
-type identifiers struct {
-	Name string
-	Url  string
-}
-
 type discordNotifier struct {
-	identifiers
+	Url string
 }
 
 func newDiscordNotifier(url string) discordNotifier {
-	dn := discordNotifier{}
-	dn.Name = "discord"
-	dn.Url = url
-	return dn
+	return discordNotifier{Url: url}
 }
 
 func (dn discordNotifier) send(ruleName, ip string) {
