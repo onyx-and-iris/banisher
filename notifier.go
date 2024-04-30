@@ -21,7 +21,7 @@ func newDiscordNotifier(url string) discordNotifier {
 
 func (dn discordNotifier) send(ruleName, ip string) {
 	username := "Banisher"
-	content := fmt.Sprintf("%s violation for %s", ruleName, ip)
+	content := fmt.Sprintf("%s :hammer:**BANNED**:hammer: %s :hammer:**BANNED**:hammer:", ruleName, ip)
 
 	message := discordwebhook.Message{
 		Username: &username,
